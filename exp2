@@ -1,0 +1,188 @@
+mysql> create table Student(Roll_No int,Name varchar(20),DOB  date,Adress text,Phone_No varchar(20),Blood_Group varchar(20));
+Query OK, 0 rows affected (0.12 sec)
+mysql> show tables;
++-------------------+
+| Tables_in_23mca10 |
++-------------------+
+| Employee          |
+| Student           |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> create table Course(Course_Id int,Course_Name varchar(20),Course_Duration int);
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_23mca10 |
++-------------------+
+| Course            |
+| Employee          |
+| Student           |
++-------------------+
+mysql> desc Student;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Roll_No     | int         | YES  |     | NULL    |       |
+| Name        | varchar(20) | YES  |     | NULL    |       |
+| DOB         | date        | YES  |     | NULL    |       |
+| Adress      | text        | YES  |     | NULL    |       |
+| Phone_No    | varchar(20) | YES  |     | NULL    |       |
+| Blood_Group | varchar(20) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER table Student drop column Blood_Group;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++-------------------+
+| Tables_in_23mca10 |
++-------------------+
+| Course            |
+| Employee          |
+| Student           |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> desc Student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Roll_No  | int         | YES  |     | NULL    |       |
+| Name     | varchar(20) | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| Adress   | text        | YES  |     | NULL    |       |
+| Phone_No | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER table Student add Adhar_No int;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Roll_No  | int         | YES  |     | NULL    |       |
+| Name     | varchar(20) | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| Adress   | text        | YES  |     | NULL    |       |
+| Phone_No | varchar(20) | YES  |     | NULL    |       |
+| Adhar_No | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> desc Student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Roll_No  | int         | YES  |     | NULL    |       |
+| Name     | varchar(20) | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| Adress   | text        | YES  |     | NULL    |       |
+| Phone_No | int         | YES  |     | NULL    |       |
+| Adhar_No | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> create table Employee1(Emp_No varchar(10),Emp_Name varchar(20),DOB date,Adress varchar(50),Mobile_No int(20),Dept_NO varchar(10),salary int(10));
+Query OK, 0 rows affected, 2 warnings (0.11 sec)
+
+mysql> desc Employee1;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Emp_No    | varchar(10) | YES  |     | NULL    |       |
+| Emp_Name  | varchar(20) | YES  |     | NULL    |       |
+| DOB       | date        | YES  |     | NULL    |       |
+| Adress    | varchar(50) | YES  |     | NULL    |       |
+| Mobile_No | int         | YES  |     | NULL    |       |
+| Dept_NO   | varchar(10) | YES  |     | NULL    |       |
+| salary    | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> create table Department(Dep_No varchar(10),Dep_Name varchar(20),Location varchar(50));
+
+mysql> desc Department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Dep_No   | varchar(10) | YES  |     | NULL    |       |
+| Dep_Name | varchar(20) | YES  |     | NULL    |       |
+| Location | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+
+mysql> show tables;
++-------------------+
+| Tables_in_23mca10 |
++-------------------+
+| Course            |
+| Department        |
+| Employee          |
+| Employee1         |
+| Student           |
++-------------------+
+mysql> desc Employee1;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Emp_No    | varchar(10) | YES  |     | NULL    |       |
+| Emp_Name  | varchar(20) | YES  |     | NULL    |       |
+| DOB       | date        | YES  |     | NULL    |       |
+| Adress    | varchar(50) | YES  |     | NULL    |       |
+| Mobile_No | int         | YES  |     | NULL    |       |
+| Dept_NO   | varchar(10) | YES  |     | NULL    |       |
+| salary    | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc Department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Dep_No   | varchar(10) | YES  |     | NULL    |       |
+| Dep_Name | varchar(20) | YES  |     | NULL    |       |
+| Location | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER table Employee1 add column Designation varchar(20);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Employee1;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Emp_No      | varchar(10) | YES  |     | NULL    |       |
+| Emp_Name    | varchar(20) | YES  |     | NULL    |       |
+| DOB         | date        | YES  |     | NULL    |       |
+| Adress      | varchar(50) | YES  |     | NULL    |       |
+| Mobile_No   | int         | YES  |     | NULL    |       |
+| Dept_NO     | varchar(10) | YES  |     | NULL    |       |
+| salary      | int         | YES  |     | NULL    |       |
+| Designation | varchar(20) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> ALTER table Department drop column Location;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Dep_No   | varchar(10) | YES  |     | NULL    |       |
+| Dep_Name | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> 
+
+

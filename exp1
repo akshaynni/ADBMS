@@ -1,0 +1,288 @@
+create table Employee(Id varchar(5),DeptId int(2),Name Varchar(15),Designation Varchar(15),BAsic int(10),Gender Varchar(1));
+Query OK, 0 rows affected, 2 warnings (0.10 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_23mca10 |
++-------------------+
+| Employee          |
++-------------------+
+1 row in set (0.01 sec)
+
+mysql> select * from Employee;
+
+Qst no:1
+
+
+mysql> insert into Employee Value("101",1,"Ram","typist",2000,"M");
+mysql> insert into Employee Values("102",2,"Arun","Analyst",6000,"M");
+mysql> insert into Employee Values("121",1,"Ruby","Typist",2000,"F");
+mysql> insert into Employee Values("156",3,"Mary","Manager",4500,"F");
+mysql> insert into Employee Values("123",2,"Mridula","Analyst",6000,"F");
+mysql> insert into Employee Values("114",4,"Menon","Clerk",1500,"M");
+mysql> insert into Employee Values("115",4,"Tim","Clerk",1500,"M");
+mysql> insert into Employee Values("127",2,"Kiran","Manager",4000,"M");
+
+mysql> select * from Employee;
++------+--------+---------+-------------+-------+--------+
+| Id   | DeptId | Name    | Designation | BAsic | Gender |
++------+--------+---------+-------------+-------+--------+
+| 101  |      1 | Ram     | typist      |  2000 | M      |
+| 102  |      2 | Arun    | Analyst     |  6000 | M      |
+| 121  |      1 | Ruby    | Typist      |  2000 | F      |
+| 156  |      3 | Mary    | Manager     |  4500 | F      |
+| 123  |      2 | Mridula | Analyst     |  6000 | F      |
+| 114  |      4 | Menon   | Clerk       |  1500 | M      |
+| 115  |      4 | Tim     | Clerk       |  1500 | M      |
+| 127  |      2 | Kiran   | Manager     |  4000 | M      |
++------+--------+---------+-------------+-------+--------+
+
+Qstn no: 2
+
+
+mysql> describe Employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Id          | varchar(5)  | YES  |     | NULL    |       |
+| DeptId      | int         | YES  |     | NULL    |       |
+| Name        | varchar(15) | YES  |     | NULL    |       |
+| Designation | varchar(15) | YES  |     | NULL    |       |
+| BAsic       | int         | YES  |     | NULL    |       |
+| Gender      | varchar(1)  | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+
+Qstn No:3
+
+mysql> Select Id,Name,BAsic from Employee;
++------+---------+-------+
+| Id   | Name    | BAsic |
++------+---------+-------+
+| 101  | Ram     |  2000 |
+| 102  | Arun    |  6000 |
+| 121  | Ruby    |  2000 |
+| 156  | Mary    |  4500 |
+| 123  | Mridula |  6000 |
+| 114  | Menon   |  1500 |
+| 115  | Tim     |  1500 |
+| 127  | Kiran   |  4000 |
++------+---------+-------+
+
+Qstn NO:4
+mysql> Select Id,Name from Employee Where DeptId=2;
++------+---------+
+| Id   | Name    |
++------+---------+
+| 102  | Arun    |
+| 123  | Mridula |
+| 127  | Kiran   |
++------+---------+
+
+QSTN NO :5
+
+mysql> Select Id,Name,Designation,DeptId,(0.075*BAsic)As Da,(0.005*BAsic)As HRA,(BAsic +0.075*BAsic+0.005*BAsic)as NET_SAL from Employee;
++------+---------+-------------+--------+---------+--------+----------+
+| Id   | Name    | Designation | DeptId | Da      | HRA    | NET_SAL  |
++------+---------+-------------+--------+---------+--------+----------+
+| 101  | Ram     | typist      |      1 | 150.000 | 10.000 | 2160.000 |
+| 102  | Arun    | Analyst     |      2 | 450.000 | 30.000 | 6480.000 |
+| 121  | Ruby    | Typist      |      1 | 150.000 | 10.000 | 2160.000 |
+| 156  | Mary    | Manager     |      3 | 337.500 | 22.500 | 4860.000 |
+| 123  | Mridula | Analyst     |      2 | 450.000 | 30.000 | 6480.000 |
+| 114  | Menon   | Clerk       |      4 | 112.500 |  7.500 | 1620.000 |
+| 115  | Tim     | Clerk       |      4 | 112.500 |  7.500 | 1620.000 |
+| 127  | Kiran   | Manager     |      2 | 300.000 | 20.000 | 4320.000 |
++------+---------+-------------+--------+---------+--------+----------+
+
+
+QSTN NO:6
+
+mysql> select Id,Name,Designation,DeptId,BAsic From Employee Order By BAsic Desc;
++------+---------+-------------+--------+-------+
+| Id   | Name    | Designation | DeptId | BAsic |
++------+---------+-------------+--------+-------+
+| 102  | Arun    | Analyst     |      2 |  6000 |
+| 123  | Mridula | Analyst     |      2 |  6000 |
+| 156  | Mary    | Manager     |      3 |  4500 |
+| 127  | Kiran   | Manager     |      2 |  4000 |
+| 101  | Ram     | typist      |      1 |  2000 |
+| 121  | Ruby    | Typist      |      1 |  2000 |
+| 114  | Menon   | Clerk       |      4 |  1500 |
+| 115  | Tim     | Clerk       |      4 |  1500 |
++------+---------+-------------+--------+-------+
+
+QSTN NO :7
+
+mysql> select * from Employee Where Designation="Typist";
++------+--------+------+-------------+-------+--------+
+| Id   | DeptId | Name | Designation | BAsic | Gender |
++------+--------+------+-------------+-------+--------+
+| 101  |      1 | Ram  | typist      |  2000 | M      |
+| 121  |      1 | Ruby | Typist      |  2000 | F      |
++------+--------+------+-------------+-------+--------+
+
+QSTN NO:8
+
+mysql> select * from Employee Where Designation in ('Analyst','Manager');
++------+--------+---------+-------------+-------+--------+
+| Id   | DeptId | Name    | Designation | BAsic | Gender |
++------+--------+---------+-------------+-------+--------+
+| 102  |      2 | Arun    | Analyst     |  6000 | M      |
+| 156  |      3 | Mary    | Manager     |  4500 | F      |
+| 123  |      2 | Mridula | Analyst     |  6000 | F      |
+| 127  |      2 | Kiran   | Manager     |  4000 | M      |
++------+--------+---------+-------------+-------+--------+
+
+QSTN NO:9
+
+mysql> select Distinct Designation From Employee;
++-------------+
+| Designation |
++-------------+
+| typist      |
+| Analyst     |
+| Manager     |
+| Clerk       |
++-------------+
+
+
+QSTN NO:10
+
+mysql> select Id,Name,DeptId,BAsic From Employee Where (Designation='Manager'or Designation='clerk')AND(BAsic Between 1400 and 4500);
++------+-------+--------+-------+
+| Id   | Name  | DeptId | BAsic |
++------+-------+--------+-------+
+| 156  | Mary  |      3 |  4500 |
+| 114  | Menon |      4 |  1500 |
+| 115  | Tim   |      4 |  1500 |
+| 127  | Kiran |      2 |  4000 |
++------+-------+--------+-------+
+
+
+QSTN NO :11
+
+mysql> select COUNT(*) From Employee Where Gender='M';
++----------+
+| COUNT(*) |
++----------+
+|        5 |
++----------+
+
+
+QSTN NO:12
+
+mysql> select Designation,MAX(BAsic) From Employee Group By Designation;
++-------------+------------+
+| Designation | MAX(BAsic) |
++-------------+------------+
+| typist      |       2000 |
+| Analyst     |       6000 |
+| Manager     |       4500 |
+| Clerk       |       1500 |
++-------------+------------+
+
+QSTN NO:13
+
+mysql> Alter Table Employee ADD ManagerId char(5);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * From Employee;
++------+--------+---------+-------------+-------+--------+-----------+
+| Id   | DeptId | Name    | Designation | BAsic | Gender | ManagerId |
++------+--------+---------+-------------+-------+--------+-----------+
+| 101  |      1 | Ram     | typist      |  2000 | M      | NULL      |
+| 102  |      2 | Arun    | Analyst     |  6000 | M      | NULL      |
+| 121  |      1 | Ruby    | Typist      |  2000 | F      | NULL      |
+| 156  |      3 | Mary    | Manager     |  4500 | F      | NULL      |
+| 123  |      2 | Mridula | Analyst     |  6000 | F      | NULL      |
+| 114  |      4 | Menon   | Clerk       |  1500 | M      | NULL      |
+| 115  |      4 | Tim     | Clerk       |  1500 | M      | NULL      |
+| 127  |      2 | Kiran   | Manager     |  4000 | M      | NULL      |
++------+--------+---------+-------------+-------+--------+-----------+
+
+
+QSTN NO:14
+
+mysql> update Employee set ManagerId=NULL Where ID in('101','102');
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 2  Changed: 0  Warnings: 0
+
+mysql> update Employee set ManagerId=NULL Where ID in('121','156');
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 2  Changed: 0  Warnings: 0
+
+mysql> update Employee set ManagerId=NULL Where ID in('123','114','115');
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 3  Changed: 0  Warnings: 0
+
+mysql> update Employee set ManagerId='121' Where ID='127';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+mysql> select * From Employee;
++------+--------+---------+-------------+-------+--------+-----------+
+| Id   | DeptId | Name    | Designation | BAsic | Gender | ManagerId |
++------+--------+---------+-------------+-------+--------+-----------+
+| 101  |      1 | Ram     | typist      |  2000 | M      | NULL      |
+| 102  |      2 | Arun    | Analyst     |  6000 | M      | NULL      |
+| 121  |      1 | Ruby    | Typist      |  2000 | F      | NULL      |
+| 156  |      3 | Mary    | Manager     |  4500 | F      | NULL      |
+| 123  |      2 | Mridula | Analyst     |  6000 | F      | NULL      |
+| 114  |      4 | Menon   | Clerk       |  1500 | M      | NULL      |
+| 115  |      4 | Tim     | Clerk       |  1500 | M      | NULL      |
+| 127  |      2 | Kiran   | Manager     |  4000 | M      | 121       |
++------+--------+---------+-------------+-------+--------+-----------+
+
+QSTN NO:15
+
+mysql> select ManagerId From Employee Where name='Ram';
++-----------+
+| ManagerId |
++-----------+
+| NULL      |
++-----------+
+
+
+QSTN NO:17
+
+mysql> select avg(BAsic) From Employee group by DeptId;
++------------+
+| avg(BAsic) |
++------------+
+|  2000.0000 |
+|  5333.3333 |
+|  4500.0000 |
+|  1500.0000 |
++------------+
+ QSN NO : 18
+ 
+mysql> SELECT max(BAsic) From Employee;
++------------+
+| max(BAsic) |
++------------+
+|       6000 |
++------------+
+
+ QSTN NO: 19
+ 
+mysql> select DeptId,count(*) From Employee group by DeptId;
++--------+----------+
+| DeptId | count(*) |
++--------+----------+
+|      1 |        2 |
+|      2 |        3 |
+|      3 |        1 |
+|      4 |        2 |
++--------+----------+
+
+QSTN NO :20
+
+mysql> SELECT Count(distinct DeptId)From Employee;
++------------------------+
+| Count(distinct DeptId) |
++------------------------+
+|                      4 |
++------------------------+
+
+
+

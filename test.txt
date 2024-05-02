@@ -1,0 +1,580 @@
+mysql> show tables;
++-------------------+
+| Tables_in_23mca10 |
++-------------------+
+| Department        |
+| Employee          |
+| department        |
+| employee          |
+| orders            |
+| person            |
+| staff             |
++-------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * FROM department;
++---------+----------+
+| dept_id | dname    |
++---------+----------+
+|       1 | design   |
+|       2 | coding   |
+|       3 | Testing  |
+|       4 | Research |
+|       5 | Maintain |
++---------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * FROM staff
+    -> ^C
+mysql> select * FROM staff;
++------+--------+---------+---------+---------+--------+--------------+--------------+
+| ID   | DeptID | Name    | Design  | Basic   | Gender | Manager_Name | joining_date |
++------+--------+---------+---------+---------+--------+--------------+--------------+
+| 102  |      2 | Arun    | Analyst | 6000.00 | M      | NULL         | 2024-03-10   |
+| 121  |      1 | Ruby    | Typist  | 2010.00 | F      | NULL         | 2023-01-22   |
+| 156  |      3 | Mary    | Manager | 4500.00 | F      | NULL         | 2023-01-13   |
+| 123  |      2 | Mridula | Analyst | 6000.00 | F      | NULL         | 2024-01-13   |
+| 114  |      4 | Menon   | Clerk   | 1500.00 | M      | NULL         | 2024-02-13   |
+| 115  |      4 | Tim     | Clerk   | 1500.00 | M      | NULL         | 2024-03-13   |
+| 127  |      2 | Kiran   | Manager | 4000.00 | M      | NULL         | 2024-03-23   |
++------+--------+---------+---------+---------+--------+--------------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> select Name as Employee Name,dname s department Name FROM staff Join department on staff.DeptId=department.dept_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Name,dname s department Name FROM staff Join department on staff.DeptId=departme' at line 1
+mysql> select Name as Employee Name,dname as department Name FROM staff Join department on staff.DeptId=department.dept_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Name,dname as department Name FROM staff Join department on staff.DeptId=departm' at line 1
+mysql> select Name as Employee_Name,dname as department_Name FROM staff Join department on staff.DeptId=department.dept_id;
++---------------+-----------------+
+| Employee_Name | department_Name |
++---------------+-----------------+
+| Arun          | coding          |
+| Ruby          | design          |
+| Mary          | Testing         |
+| Mridula       | coding          |
+| Menon         | Research        |
+| Tim           | Research        |
+| Kiran         | coding          |
++---------------+-----------------+
+7 rows in set (0.00 sec)
+mysql> select dname FROM staff join department on staff.DeptID=department.dept_id WHERE staff.Name='Arun';
++--------+
+| dname  |
++--------+
+| coding |
++--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Basic FROM staff WHERE DeptID=(select dept_id from department WHERE dname='design');
++---------+
+| Basic   |
++---------+
+| 2010.00 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select * from staff where Design='Typist' AND DeptID=(select dept_id from department where dname='Design');
++------+--------+------+--------+---------+--------+--------------+--------------+
+| ID   | DeptID | Name | Design | Basic   | Gender | Manager_Name | joining_date |
++------+--------+------+--------+---------+--------+--------------+--------------+
+| 121  |      1 | Ruby | Typist | 2010.00 | F      | NULL         | 2023-01-22   |
++------+--------+------+--------+---------+--------+--------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select Basic from staff WHERE DeptID=(select dept_id from department where dname='Research');
++---------+
+| Basic   |
++---------+
+| 1500.00 |
+| 1500.00 |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select * FROM staff WHERE Gender='F' AND DeptID=(select dept_id from department WHERE Dname='Testing');
++------+--------+------+---------+---------+--------+--------------+--------------+
+| ID   | DeptID | Name | Design  | Basic   | Gender | Manager_Name | joining_date |
++------+--------+------+---------+---------+--------+--------------+--------------+
+| 156  |      3 | Mary | Manager | 4500.00 | F      | NULL         | 2023-01-13   |
++------+--------+------+---------+---------+--------+--------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> desc staff;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| ID           | char(5)       | YES  |     | NULL    |       |
+| DeptID       | decimal(2,0)  | YES  |     | NULL    |       |
+| Name         | char(15)      | YES  |     | NULL    |       |
+| Design       | char(15)      | YES  |     | NULL    |       |
+| Basic        | decimal(10,2) | YES  |     | NULL    |       |
+| Gender       | char(1)       | YES  |     | NULL    |       |
+| Manager_Name | char(15)      | YES  |     | NULL    |       |
+| joining_date | date          | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> desc department;
++---------+----------+------+-----+---------+-------+
+| Field   | Type     | Null | Key | Default | Extra |
++---------+----------+------+-----+---------+-------+
+| dept_id | int      | NO   | PRI | NULL    |       |
+| dname   | char(15) | YES  |     | NULL    |       |
++---------+----------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER table department MODIFY dept_id DECIMAL(2,0);
+Query OK, 5 rows affected (0.80 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> ALTER table staff add FOREIGN KEY(DeptID) reference department(dept_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference department(dept_id)' at line 1
+mysql> ALTER table staff add FOREIGN KEY(DeptID) references department(dept_id);
+Query OK, 7 rows affected (1.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> desc department;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| dept_id | decimal(2,0) | NO   | PRI | NULL    |       |
+| dname   | char(15)     | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * FROM staff WHERE DeptID NOT IN(select dept_id from department WHERE dname IN ('Coding','Testing'));
++------+--------+-------+--------+---------+--------+--------------+--------------+
+| ID   | DeptID | Name  | Design | Basic   | Gender | Manager_Name | joining_date |
++------+--------+-------+--------+---------+--------+--------------+--------------+
+| 121  |      1 | Ruby  | Typist | 2010.00 | F      | NULL         | 2023-01-22   |
+| 114  |      4 | Menon | Clerk  | 1500.00 | M      | NULL         | 2024-02-13   |
+| 115  |      4 | Tim   | Clerk  | 1500.00 | M      | NULL         | 2024-03-13   |
++------+--------+-------+--------+---------+--------+--------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select dname from department as d,staff as e where e.DeptID=d.dept_no group by d.dname having max(e.salary);
+ERROR 1054 (42S22): Unknown column 'd.dept_no' in 'where clause'
+mysql> select dname from department as d,staff as e where e.DeptID=d.dept_no g^Cup by d.dname having max(e.salary);
+mysql> ^C
+mysql> 
+
+22.
+mysql> SELECT d.dname FROM department AS d JOIN employee AS e ON e.dept_id = d.dept_id GROUP BY d.dept_id, d.dname HAVING SUM(e.Basic) = (SELECT MAX(total_basic) FROM (SELECT SUM(e2.Basic) AS total_basic FROM employee AS e2 GROUP BY e2.dept_id) AS dept_totals);
++--------+
+| dname  |
++--------+
+| coding |
++--------+
+1 row in set (0.00 sec)
+
+23.
+mysql>   SELECT d.dname FROM department AS d JOIN employee AS e ON e.dept_id = d.Dept_ID GROUP BY d.dept_id, d.dname HAVING COUNT(*) = (SELECT MIN(count) FROM (SELECT COUNT(*) AS count FROM employee AS e2 GROUP BY e2.dept_id) AS dept_totals);
++---------+
+| dname   |
++---------+
+| testing |
++---------+
+1 row in set (0.01 sec)
+
+24.
+
+mysql> SELECT MIN(basic) FROM employee WHERE basic > (SELECT MIN(basic) FROM employee);
++------------+
+| MIN(basic) |
++------------+
+|    2000.00 |
++------------+
+1 row in set (0.00 sec)
+
+25.
+
+mysql> SELECT MAX(basic) FROM employee WHERE basic < (SELECT MAX(basic) FROM employee);
++------------+
+| MAX(basic) |
++------------+
+|    4500.00 |
++------------+
+1 row in set (0.00 sec)
+
+26.
+
+mysql> SELECT e.Name FROM employee AS e JOIN (SELECT dept_id, AVG(Basic) AS avg_salary FROM employee GROUP BY dept_id) AS dept_avg_salary ON e.dept_id = dept_avg_salary.dept_id WHERE e.Basic > dept_avg_salary.avg_salary;
++---------+
+| Name    |
++---------+
+| Arun    |
+| Ruby    |
+| Mridula |
++---------+
+3 rows in set (0.00 sec)
+
+27.
+
+mysql>  SELECT Name FROM employee WHERE  ManagerId =(SELECT ID FROM employee WHERE Name ='RAM');
++------+
+| Name |
++------+
+| Arun |
+| Ruby |
+| Mary |
++------+
+3 rows in set (0.00 sec)
+
+28.
+
+mysql> select dept_id , count(*) as "number of dept_employees" from employee group by dept_id having count(*) > 3;
+Empty set (0.00 sec)
+
+mysql> 
+
+29.
+
+mysql> select dept_id,min(Basic) as "lowest salary" from employee group by dept_id having min(basic)>2500;
++---------+---------------+
+| dept_id | lowest salary |
++---------+---------------+
+|       2 |       4000.00 |
+|       3 |       4500.00 |
++---------+---------------+
+2 rows in set (0.00 sec)
+
+30.
+mysql>  SELECT e.Name FROM employee AS e JOIN (SELECT dept_id, MAX(Basic) AS max_salary FROM employee  GROUP BY dept_id) AS max_salaries ON e.dept_id = max_salaries.dept_id AND e.basic = max_salaries.max_salary;
++---------+
+| Name    |
++---------+
+| Arun    |
+| Ruby    |
+| Mary    |
+| Mridula |
+| Menon   |
+| Tim     |
++---------+
+6 rows in set (0.00 sec)
+
+31.
+
+mysql> select e1.Name from employee as e1 join employee as e2 on e1.Basic>e2.basic group by e1.name;
++---------+
+| Name    |
++---------+
+| Kiran   |
+| Mridula |
+| Mary    |
+| Ruby    |
+| Arun    |
+| Ram     |
++---------+
+6 rows in set (0.00 sec)
+
+32.
+
+mysql> select distinct e1.Name from employee as e1 join employee as e2 on e1.Basic<>e2.Basic;
++---------+
+| Name    |
++---------+
+| Kiran   |
+| Tim     |
+| Menon   |
+| Mridula |
+| Mary    |
+| Ruby    |
+| Arun    |
+| Ram     |
++---------+
+8 rows in set (0.00 sec)
+
+33.
+
+mysql> Alter table employee ADD city varchar(30);
+Query OK, 0 rows affected (0.24 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++------+---------+---------+-------------+---------+--------+-----------+--------------+------+
+| ID   | dept_id | Name    | Designation | Basic   | Gender | ManagerId | joining_date | city |
++------+---------+---------+-------------+---------+--------+-----------+--------------+------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |      NULL | 2023-04-15   | NULL |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |       101 | 2022-04-15   | NULL |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |       101 | 2022-05-15   | NULL |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |       101 | 2022-01-15   | NULL |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |       102 | 2022-10-20   | NULL |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |       102 | 2022-11-20   | NULL |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |       102 | 2022-12-20   | NULL |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |       121 | 2020-05-26   | NULL |
++------+---------+---------+-------------+---------+--------+-----------+--------------+------+
+
+34.
+
+mysql> Alter table department ADD city varchar(30);
+Query OK, 0 rows affected (0.20 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from department;
++---------+----------+------+
+| dept_id | dname    | city |
++---------+----------+------+
+|       1 | design   | NULL |
+|       2 | coding   | NULL |
+|       3 | testing  | NULL |
+|       4 | research | NULL |
+|       5 | maintain | NULL |
++---------+----------+------+
+5 rows in set (0.00 se
+
+/////////////////////////////////////
+mysql> update employee set city='Banglore' where dept_id=1
+    -> ^C
+mysql> update employee set city='Banglore' where dept_id=1;
+Query OK, 2 rows affected (0.07 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from employee
+    -> ^C
+mysql> select * from employee;
++------+---------+---------+-------------+---------+--------+-----------+--------------+----------+
+| ID   | dept_id | Name    | Designation | Basic   | Gender | ManagerId | joining_date | city     |
++------+---------+---------+-------------+---------+--------+-----------+--------------+----------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |      NULL | 2023-04-15   | Banglore |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |       101 | 2022-04-15   | NULL     |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |       101 | 2022-05-15   | Banglore |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |       101 | 2022-01-15   | NULL     |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |       102 | 2022-10-20   | NULL     |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |       102 | 2022-11-20   | NULL     |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |       102 | 2022-12-20   | NULL     |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |       121 | 2020-05-26   | NULL     |
++------+---------+---------+-------------+---------+--------+-----------+--------------+----------+
+8 rows in set (0.00 sec)
+
+mysql> update employee set city='chennai' where dept_id=2;
+Query OK, 3 rows affected (0.19 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> update employee set city='Pune' where dept_id=3;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set city='kochi' where dept_id=4;
+Query OK, 2 rows affected (0.07 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from employee;
++------+---------+---------+-------------+---------+--------+-----------+--------------+----------+
+| ID   | dept_id | Name    | Designation | Basic   | Gender | ManagerId | joining_date | city     |
++------+---------+---------+-------------+---------+--------+-----------+--------------+----------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |      NULL | 2023-04-15   | Banglore |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |       101 | 2022-04-15   | chennai  |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |       101 | 2022-05-15   | Banglore |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |       101 | 2022-01-15   | Pune     |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |       102 | 2022-10-20   | chennai  |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |       102 | 2022-11-20   | kochi    |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |       102 | 2022-12-20   | kochi    |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |       121 | 2020-05-26   | chennai  |
++------+---------+---------+-------------+---------+--------+-----------+--------------+----------+
+8 rows in set (0.00 sec)
+mysql> update department set city='up' where dept_id=1;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update department set city='punjab' where dept_id=2;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update department set city='Kochi' where dept_id=3;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update department set city='Banglore' where dept_id=4;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from department;
++---------+----------+----------+
+| dept_id | dname    | city     |
++---------+----------+----------+
+|       1 | design   | up       |
+|       2 | coding   | punjab   |
+|       3 | testing  | Kochi    |
+|       4 | research | Banglore |
+|       5 | maintain | NULL     |
++---------+----------+----------+
+5 rows in set (0.01 sec)
+
+mysql> update department set city='Telangana' where dept_id=5;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from department;
++---------+----------+-----------+
+| dept_id | dname    | city      |
++---------+----------+-----------+
+|       1 | design   | up        |
+|       2 | coding   | punjab    |
+|       3 | testing  | Kochi     |
+|       4 | research | Banglore  |
+|       5 | maintain | Telangana |
++---------+----------+-----------+
+
+mysql> select * from employee;
++------+---------+---------+-------------+---------+--------+-----------+--------------+----------+
+| ID   | dept_id | Name    | Designation | Basic   | Gender | ManagerId | joining_date | city     |
++------+---------+---------+-------------+---------+--------+-----------+--------------+----------+
+| 101  |       1 | Ram     | Typist      | 2000.00 | M      |      NULL | 2023-04-15   | Banglore |
+| 102  |       2 | Arun    | Analyst     | 6000.00 | M      |       101 | 2022-04-15   | chennai  |
+| 121  |       1 | Ruby    | Typist      | 2010.00 | F      |       101 | 2022-05-15   | Banglore |
+| 156  |       3 | Mary    | Manager     | 4500.00 | F      |       101 | 2022-01-15   | Pune     |
+| 123  |       2 | Mridula | Analyst     | 6000.00 | F      |       102 | 2022-10-20   | chennai  |
+| 114  |       4 | Menon   | Clerk       | 1500.00 | M      |       102 | 2022-11-20   | kochi    |
+| 115  |       4 | Tim     | Clerk       | 1500.00 | M      |       102 | 2022-12-20   | kochi    |
+| 127  |       2 | Kiran   | Manager     | 4000.00 | M      |       121 | 2020-05-26   | chennai  |
++------+---------+---------+-------------+---------+--------+-----------+--------------+----------+
+8 rows in set (0.00 sec)
+
+mysql> 
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+35.
+
+mysql> select e.Name from employee AS e join department AS d where e.dept_id=d.dept_id AND e.city=d.city;
++---------+
+| Name    |
++---------+
+| Ram     |
+| Arun    |
+| Ruby    |
+| Mridula |
+| Kiran   |
++---------+
+5 rows in set (0.00 sec)
+
+36.
+mysql> select d.dname from employee AS e join department AS d WHERE e.dept_id =d.dept_id group by d.dname order by sum(e.basic) ASC LIMIT 1;
++----------+
+| dname    |
++----------+
+| research |
++----------+
+1 row in set (0.00 sec)
+
+37.
+
+mysql> select Name from employee WHERE joining_date like "199_______";
++-------+
+| Name  |
++-------+
+| Kiran |
++-------+
+1 row in set (0.00 sec)
+
+38.
+
+mysql> select Name from employee WHERE joining_date like "_____08___";
++------+
+| Name |
++------+
+| Ram  |
++------+
+1 row in set (0.00 sec)
+
+39.
+
+
+mysql> select d.* from department AS d WHERE not exists(select 1 from employee AS e WHERE e.dept_id=d.dept_id);
++---------+----------+-----------+
+| dept_id | dname    | city      |
++---------+----------+-----------+
+|       5 | maintain | Telangana |
++---------+----------+-----------+
+1 row in set (0.01 sec)
+
+40.
+
+mysql> select d.* from department AS d WHERE 2<(select COUNT(*) from employee AS e WHERE e.dept_id=d.dept_id);
++---------+--------+---------+
+| dept_id | dname  | city    |
++---------+--------+---------+
+|       2 | coding | chennai |
++---------+--------+---------+
+1 row in set (0.00 sec)
+
+41.
+
+mysql> SELECT e.dept_id, COUNT(*) AS num_employees_gt_5000 FROM employee AS e JOIN (SELECT dept_id FROM employee  GROUP BY dept_id  HAVING COUNT(*) > 4 ) AS dept_count ON e.dept_id = dept_count.dept_id WHERE e.basic> 5000 GROUP BY e.dept_id;
+Empty set (0.00 sec)
+
+41.
+
+mysql> INSERT INTO employee (id, dept_id, name, designation, basic, gender, ManagerId, joining_date, city) VALUES ('EMP01', NULL, 'John Doe', 'Engineer', 6000.00, 'M', NULL, '2024-03-26', 'New York'),('E
+MP02', NULL, 'Jane Smith', 'Manager', 7000.00, 'F', NULL, '2024-03-26', 'Los Angeles'),('EMP03', NULL, 'Alice Johnson', 'Analyst', 5500.00, 'F', NULL, '2024-03-26', 'Chicago');
+Query OK, 3 rows affected (0.08 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+---------------+-------------+---------+--------+-----------+--------------+-------------+
+| ID    | dept_id | Name          | Designation | Basic   | Gender | ManagerId | joining_date | city        |
++-------+---------+---------------+-------------+---------+--------+-----------+--------------+-------------+
+| 101   |       1 | Ram           | Typist      | 2000.00 | M      |      NULL | 2023-08-15   | Banglore    |
+| 102   |       2 | Arun          | Analyst     | 6000.00 | M      |       101 | 2022-04-15   | chennai     |
+| 121   |       1 | Ruby          | Typist      | 2010.00 | F      |       101 | 2022-05-15   | Banglore    |
+| 156   |       3 | Mary          | Manager     | 4500.00 | F      |       101 | 2022-01-15   | Pune        |
+| 123   |       2 | Mridula       | Analyst     | 6000.00 | F      |       102 | 2022-10-20   | chennai     |
+| 114   |       4 | Menon         | Clerk       | 1500.00 | M      |       102 | 2022-11-20   | kochi       |
+| 115   |       4 | Tim           | Clerk       | 1500.00 | M      |       102 | 2022-12-20   | kochi       |
+| 127   |       2 | Kiran         | Manager     | 4000.00 | M      |       121 | 1999-07-19   | chennai     |
+| EMP01 |    NULL | John Doe      | Engineer    | 6000.00 | M      |      NULL | 2024-03-26   | New York    |
+| EMP02 |    NULL | Jane Smith    | Manager     | 7000.00 | F      |      NULL | 2024-03-26   | Los Angeles |
+| EMP03 |    NULL | Alice Johnson | Analyst     | 5500.00 | F      |      NULL | 2024-03-26   | Chicago     |
++-------+---------+---------------+-------------+---------+--------+-----------+--------------+-------------+
+11 rows in set (0.00 sec)
+
+43.
+
+mysql> SELECT e.name, COALESCE(d.dept_id, 'null') AS department_i FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id;
++---------------+--------------+
+| name          | department_i |
++---------------+--------------+
+| Ram           | 1            |
+| Arun          | 2            |
+| Ruby          | 1            |
+| Mary          | 3            |
+| Mridula       | 2            |
+| Menon         | 4            |
+| Tim           | 4            |
+| Kiran         | 2            |
+| John Doe      | null         |
+| Jane Smith    | null         |
+| Alice Johnson | null         |
++---------------+--------------+
+11 rows in set (0.00 sec)
+
+44.
+
+mysql> SELECT e.name, COALESCE(d.dept_id, 0) AS department_id FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id;
++---------------+---------------+
+| name          | department_id |
++---------------+---------------+
+| Ram           |             1 |
+| Arun          |             2 |
+| Ruby          |             1 |
+| Mary          |             3 |
+| Mridula       |             2 |
+| Menon         |             4 |
+| Tim           |             4 |
+| Kiran         |             2 |
+| John Doe      |             0 |
+| Jane Smith    |             0 |
+| Alice Johnson |             0 |
++---------------+---------------+
+11 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+

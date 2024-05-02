@@ -1,0 +1,164 @@
+DROP PROCEDURE IF EXISTS greatest;
+DELIMITER //
+
+CREATE PROCEDURE greatest(IN num1 INT, IN num2 INT, IN num3 INT)
+BEGIN
+    DECLARE greatest INT;
+    IF num1 >= num2 AND num1 >= num3 THEN
+        SET greatest = num1;
+    ELSEIF num2 >= num1 AND num2 >= num3 THEN
+        SET greatest = num2;
+    ELSE
+        SET greatest = num3;
+    END IF;
+SELECT greatest AS greatest_number;
+END//
+
+DELIMITER ;
+
+================================================
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS PrintNumbers;
+CREATE PROCEDURE PrintNumbers(IN num1 INT,IN num2 INT)
+BEGIN
+    DECLARE start_num INT;
+    DECLARE end_num INT;
+    
+    IF num1 < num2 THEN
+        SET start_num = num1;
+        SET end_num = num2;
+    ELSE
+        SET start_num = num2;
+        SET end_num = num1;
+    END IF;
+    
+    WHILE start_num <= end_num DO
+        SELECT start_num;
+        SET start_num = start_num + 1;
+    END WHILE;
+END //
+
+DELIMITER ;
+======================================================
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS sum_of_series;
+CREATE PROCEDURE sum_of_series(IN N INT)
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    DECLARE series_sum INT DEFAULT 0;
+
+    WHILE i <= N DO
+        SET series_sum = series_sum + i;
+        SET i = i + 1;
+    END WHILE;
+
+    SELECT series_sum AS sum_of_series;
+END //
+
+DELIMITER ;
+=======================================================
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS calculate_grade;
+CREATE PROCEDURE calculate_grade(IN mark INT)
+BEGIN
+    DECLARE grade VARCHAR(10);
+
+    IF mark >= 90 THEN
+        SET grade = 'A';
+    ELSEIF mark >= 80 THEN
+        SET grade = 'B';
+    ELSEIF mark >= 70 THEN
+        SET grade = 'C';
+    ELSEIF mark >= 60 THEN
+        SET grade = 'D';
+    ELSE
+        SET grade = 'F';
+    END IF;
+
+    SELECT CONCAT('Mark: ', mark, ', Grade: ', grade) AS result;
+END //
+
+DELIMITER ;
+==========================================================
+GetCustomerDetails
+  GNU nano 6.2                                                                                      exp5.sql                                                                                               
+DELIMITER //
+DROP PROCEDURE IF EXISTS invert_number;
+CREATE PROCEDURE invert_number(IN num INT)
+BEGIN
+    DECLARE inverted_num INT;
+
+    SET inverted_num = 0;
+
+    WHILE num > 0 DO
+        SET inverted_num = inverted_num * 10 + num % 10;
+        SET num = FLOOR(num / 10);
+    END WHILE;
+
+    SELECT inverted_num AS inverted_number;
+END //
+
+DELIMITER ;
+==========================================================
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS WithdrawFromAccount;
+CREATE PROCEDURE WithdrawFromAccount(IN account_id INT, IN withdrawal_amount DECIMAL(10, 2))
+BEGIN
+    DECLARE current_balance DECIMAL(10, 2);
+
+    SELECT balance INTO current_balance
+    FROM accounts
+    WHERE id = account_id;
+
+    IF current_balance IS NULL THEN
+        SELECT 'Account does not exist.' AS Message;DELIMITER //
+DROP PROCEDURE IF EXISTS WithdrawFromAccount;
+CREATE PROCEDURE WithdrawFromAccount(IN account_id INT, IN withdrawal_amount DECIMAL(10, 2))
+BEGIN
+    DECLARE current_balance DECIMAL(10, 2);
+
+    SELECT balance INTO current_balance
+    FROM accounts
+    WHERE id = account_id;
+
+    IF current_balance IS NULL THEN
+        SELECT 'Account does not exist.' AS Message;
+    ELSE
+        IF current_balance - withdrawal_amount >= 1000 THEN
+            UPDATE accounts
+            SET balance = balance - withdrawal_amount
+            WHERE id = account_id;
+
+            SELECT CONCAT('Withdrawal successful. New balance is ', balance) AS Message
+            FROM accounts
+            WHERE id = account_id;
+        ELSE
+            SELECT 'Withdrawal amount exceeds available balance.' AS Message;
+        END IF;
+    END IF;
+END //
+
+DELIMITER ;
+
+
+    ELSE
+        IF current_balance - withdrawal_amount >= 1000 THEN
+            UPDATE accounts
+            SET balance = balance - withdrawal_amount
+            WHERE id = account_id;
+
+            SELECT CONCAT('Withdrawal successful. New balance is ', balance) AS Message
+            FROM accounts
+            WHERE id = account_id;
+        ELSE
+            SELECT 'Withdrawal amount exceeds available balance.' AS Message;
+        END IF;
+    END IF;
+END //
+
+DELIMITER ;
+=========================================================
